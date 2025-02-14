@@ -1,0 +1,82 @@
+﻿@page
+@model AceJobAgency3.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #6A82FB, #FC5C7D);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+    .dashboard-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        animation: @@keyframes fadeInUp 0.8s ease-out;
+    }
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 40px, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    .dashboard-header {
+        background: #007bff;
+        color: #fff;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .dashboard-body {
+        padding: 2rem;
+        background: #fff;
+    }
+    .dashboard-body p {
+        margin: 0.5rem 0;
+    }
+    .dashboard-footer {
+        background: #f8f9fa;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        padding: 1rem;
+        text-align: center;
+    }
+    .dashboard-footer a {
+        margin: 0 0.5rem;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col-md-8 col-lg-6">
+            <div class="card dashboard-card">
+                <div class="dashboard-header">
+                    <h3>Dashboard</h3>
+                </div>
+                <div class="dashboard-body">
+                    <p><strong>Welcome:</strong> @Model.Member.FirstName @Model.Member.LastName</p>
+                    <p><strong>Email:</strong> @Model.Member.Email</p>
+                    <p><strong>Date of Birth:</strong> @Model.Member.DateOfBirth.ToShortDateString()</p>
+                    <p><strong>NRIC:</strong> @Model.DecryptedNRIC</p>
+                    <p><strong>Who Am I:</strong> @Model.Member.WhoAmI</p>
+                    @if (!string.IsNullOrEmpty(Model.Member.ResumePath))
+                    {
+                            <p><strong>Resume:</strong> <a href="@Model.Member.ResumePath" target="_blank">View Resume</a></p>
+                    }
+                </div>
+                <div class="dashboard-footer">
+                    <a asp-page="/ChangePassword" class="btn btn-outline-primary">Change Password</a>
+                    <a asp-page="/Logout" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,32 @@
+﻿@page
+@model AceJobAgency3.Pages.NotFoundModel
+@{
+    Layout = null;
+    Response.StatusCode = 404;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Page Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2em;
+        }
+
+        .error-container {
+            border: 1px solid #ccc;
+            padding: 1em;
+            background: #f8f8f8;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>404 - Page Not Found</h1>
+        <p>Sorry, we couldn't find the page you're looking for.</p>
+        <a asp-page="/Index">Go to Homepage</a>
+    </div>
+</body>
+</html>

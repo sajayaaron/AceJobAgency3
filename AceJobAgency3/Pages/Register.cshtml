@@ -1,0 +1,218 @@
+﻿@page
+@model AceJobAgency3.Pages.RegisterModel
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #6A82FB, #FC5C7D);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .register-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        animation: @@keyframes fadeInUp 0.8s ease-out;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translate3d(0, 40px, 0);
+        }
+
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+    .register-header {
+        background: #fff;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+        .register-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+    .register-form {
+        padding: 2rem;
+        background: #fff;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+        .register-form label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .register-form .form-control {
+            border-radius: 8px;
+        }
+
+        .register-form .btn {
+            border-radius: 50px;
+            padding: 0.75rem;
+            transition: transform 0.2s;
+        }
+
+            .register-form .btn:hover {
+                transform: scale(1.05);
+            }
+
+    .back-to-login {
+        text-align: center;
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col-md-10 col-lg-8">
+            <div class="card register-card">
+                <div class="register-header">
+                    <h2>Create Account</h2>
+                </div>
+                <div class="register-form">
+                    <form method="post" enctype="multipart/form-data">
+                        <!-- First Name -->
+                        <div class="mb-3">
+                            <label asp-for="Input.FirstName" class="form-label"></label>
+                            <input asp-for="Input.FirstName" class="form-control" placeholder="Enter your first name" />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                        <!-- Last Name -->
+                        <div class="mb-3">
+                            <label asp-for="Input.LastName" class="form-label"></label>
+                            <input asp-for="Input.LastName" class="form-control" placeholder="Enter your last name" />
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+                        <!-- Gender -->
+                        <div class="mb-3">
+                            <label asp-for="Input.Gender" class="form-label"></label>
+                            <select asp-for="Input.Gender" class="form-select">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                        </div>
+                        <!-- NRIC -->
+                        <div class="mb-3">
+                            <label asp-for="Input.NRIC" class="form-label"></label>
+                            <input asp-for="Input.NRIC" class="form-control" placeholder="Enter your NRIC" />
+                            <span asp-validation-for="Input.NRIC" class="text-danger"></span>
+                        </div>
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label asp-for="Input.Email" class="form-label"></label>
+                            <input asp-for="Input.Email" class="form-control" placeholder="Enter your email" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label asp-for="Input.Password" class="form-label"></label>
+                            <input asp-for="Input.Password" type="password" id="passwordInput" class="form-control" placeholder="Enter your password" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            <!-- Visual indicator for password strength -->
+                            <div id="passwordStrengthFeedback" style="font-weight: bold; margin-top: 5px;"></div>
+                        </div>
+                        <!-- Confirm Password -->
+                        <div class="mb-3">
+                            <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                            <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <!-- Date of Birth -->
+                        <div class="mb-3">
+                            <label asp-for="Input.DateOfBirth" class="form-label"></label>
+                            <input asp-for="Input.DateOfBirth" type="date" class="form-control" />
+                            <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                        </div>
+                        <!-- Resume -->
+                        <div class="mb-3">
+                            <label asp-for="Input.Resume" class="form-label"></label>
+                            <input asp-for="Input.Resume" type="file" class="form-control" />
+                            <span asp-validation-for="Input.Resume" class="text-danger"></span>
+                        </div>
+                        <!-- Who Am I -->
+                        <div class="mb-3">
+                            <label asp-for="Input.WhoAmI" class="form-label"></label>
+                            <textarea asp-for="Input.WhoAmI" class="form-control" placeholder="Tell us about yourself"></textarea>
+                            <span asp-validation-for="Input.WhoAmI" class="text-danger"></span>
+                        </div>
+                        <!-- Hidden field for reCAPTCHA token -->
+                        <input type="hidden" id="RecaptchaToken" asp-for="RecaptchaToken" />
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </form>
+                    <div class="back-to-login">
+                        <a asp-page="/Login" class="btn btn-outline-secondary mt-3">Back to Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Load the reCAPTCHA v3 script with your site key -->
+    <script src="https://www.google.com/recaptcha/api.js?render=@Configuration["Recaptcha:SiteKey"]"></script>
+    <script>
+        grecaptcha.ready(function () {
+            // Execute reCAPTCHA with the action 'register'
+            grecaptcha.execute('@Configuration["Recaptcha:SiteKey"]', { action: 'register' }).then(function (token) {
+                // Set the token value in the hidden field
+                document.getElementById('RecaptchaToken').value = token;
+            });
+        });
+    </script>
+    <!-- Password Strength Indicator Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var passwordInput = document.getElementById('passwordInput');
+            var strengthFeedback = document.getElementById('passwordStrengthFeedback');
+
+            passwordInput.addEventListener('input', function () {
+                var password = passwordInput.value;
+                var strength = getPasswordStrength(password);
+                strengthFeedback.textContent = "Strength: " + strength.message;
+                strengthFeedback.style.color = strength.color;
+            });
+
+            function getPasswordStrength(password) {
+                var score = 0;
+                // Increase score if password meets criteria
+                if (password.length >= 12) score++;
+                if (/[A-Z]/.test(password)) score++;
+                if (/[a-z]/.test(password)) score++;
+                if (/[0-9]/.test(password)) score++;
+                if (/[^A-Za-z0-9]/.test(password)) score++;
+
+                if (score <= 2) {
+                    return { message: 'Weak', color: 'red' };
+                } else if (score === 3 || score === 4) {
+                    return { message: 'Moderate', color: 'orange' };
+                } else if (score === 5) {
+                    return { message: 'Strong', color: 'green' };
+                } else {
+                    return { message: '', color: 'black' };
+                }
+            }
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
